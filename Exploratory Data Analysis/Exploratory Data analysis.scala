@@ -40,6 +40,34 @@ df.show()
 
 // COMMAND ----------
 
+//count the missing values by summing the boolean output of the isNull() method with spark sql 
+import org.apache.spark.sql.functions.{sum, col}
+df.select(df.columns.map(c => sum(col(c).isNull.cast("int")).alias(c)): _*).show
+
+// COMMAND ----------
+
+// Handling missing value with spark sql
+import org.apache.spark.ml.feature.Imputer
+
+val imputer = new Imputer()
+  .setInputCols(df.columns)
+  .setOutputCols(df.columns.map(c => s"${c}_imputed"))
+  .setStrategy("mean")
+
+imputer.fit(df).transform(df)
+
+// COMMAND ----------
+
+// finding missing value using Spark DataFrame
+val open_missing = markets.where($"open".isNull)
+
+// COMMAND ----------
+
+// Drop rows with Null on them
+markets.na.drop(minNonNulls = 7).show()
+
+// COMMAND ----------
+
 Covariance is a measure of how two variables change with respect to each other. A positive number would mean that there is a tendency that as one variable increases, the other increases as well. A negative number would mean that as one variable increases, the other variable has a tendency to decrease. Correlation is a normalized measure of covariance that is easier to understand, as it provides quantitative measurements of the statistical dependence between two random variables.In our dataset, the columns open and close are positively correlated
 
 // COMMAND ----------
