@@ -1,0 +1,5 @@
+package TwitterSentimentAnalysis
+
+object SentimentAnalysis {
+
+}
