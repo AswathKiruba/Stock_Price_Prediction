@@ -46,8 +46,8 @@
       <file leaf-file-name="TimeSeriesUtils.scala" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/TimeSeries/TimeSeriesUtils.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="11">
-              <caret line="46" column="178" selection-start-line="46" selection-start-column="178" selection-end-line="46" selection-end-column="178" />
+            <state relative-caret-position="178">
+              <caret line="34" column="65" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
               <folding>
                 <element signature="e#20#58#0" expanded="true" />
               </folding>
@@ -320,7 +320,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="6" />
       <window_info anchor="bottom" id="TODO" order="12" weight="0.32905984" />
@@ -331,7 +330,7 @@
       <window_info anchor="right" id="Capture Analysis" order="1" />
       <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.50201344" side_tool="true" weight="0.32905984" />
       <window_info anchor="right" id="Maven Projects" order="2" />
-      <window_info anchor="bottom" id="Run" order="8" sideWeight="0.49798658" visible="true" weight="0.32905984" />
+      <window_info active="true" anchor="bottom" id="Run" order="8" sideWeight="0.49798658" visible="true" weight="0.32905984" />
       <window_info anchor="bottom" id="Version Control" order="4" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="3" />
       <window_info id="Capture Tool" order="3" />
@@ -484,8 +483,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/TimeSeries/TimeSeriesUtils.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11">
-          <caret line="46" column="178" selection-start-line="46" selection-start-column="178" selection-end-line="46" selection-end-column="178" />
+        <state relative-caret-position="178">
+          <caret line="34" column="65" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
           <folding>
             <element signature="e#20#58#0" expanded="true" />
           </folding>

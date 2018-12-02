@@ -26,16 +26,13 @@ object TimeSeriesUtils {
     val sc = SparkContext.getOrCreate(conf)
     val sqlContext = new SQLContext(sc)
     val rdd = sc.parallelize(tup).map(x=>Row(x._1,x._2.asInstanceOf[Number].doubleValue()))
-    sqlContext.createDataFrame(rdd,schema).coalesce(1).write.partitionBy("Names").format("com.databricks.spark.csv").mode(SaveMode.Overwrite).save("C:/Users/meena/Documents/Stock_Prediction/CompanyPredict")
+    sqlContext.createDataFrame(rdd,schema).coalesce(1).write.partitionBy("Names").format("com.databricks.spark.csv").mode(SaveMode.Overwrite).save("prediction")
   }
 
   def getTop3Companies(forecasted:Array[(String, Vector)]):Array[(Double, String)]={
     val priceDiff = forecasted.map(x=>x._2).map(x=>x(x.size-1)-x(0))
     val name = forecasted.map(x=>x._1)
     val tup = (priceDiff,name).zipped.toArray.sortWith(_._1>_._1)
-    for(i<-0 until tup.length){
-      println(tup(i)._2+" "+tup(i)._1)
-    }
 
     val schema = StructType(
       StructField("Names", StringType, false) ::
@@ -44,7 +41,7 @@ object TimeSeriesUtils {
     val sc = SparkContext.getOrCreate(conf)
     val sqlContext = new SQLContext(sc)
     val rdd = sc.parallelize (tup).map (x => Row(x._2, x._1.asInstanceOf[Number].doubleValue()))
-    sqlContext.createDataFrame(rdd, schema).coalesce(1).write.format("com.databricks.spark.csv").mode(SaveMode.Overwrite).save("C:/Users/meena/Documents/Stock_Prediction/profit")
+    sqlContext.createDataFrame(rdd, schema).coalesce(1).write.format("com.databricks.spark.csv").mode(SaveMode.Overwrite).save("predictedProfit")
     tup
   }
 
