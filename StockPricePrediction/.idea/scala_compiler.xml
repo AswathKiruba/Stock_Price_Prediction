@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <profile name="sbt 1" modules="stockpriceprediction,StockPricePrediction" />
-    <profile name="sbt 1" modules="stockpriceprediction" />
+    <profile name="sbt 1" modules="stockpriceprediction_9117,stockpriceprediction" />
   </component>
 </project>
