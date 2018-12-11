@@ -8,28 +8,29 @@ import org.apache.commons.io.IOUtils
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.HttpClientBuilder
 import com.github.nscala_time.time.Imports._
-
-
 import scala.io.{Codec, Source}
 
-object TwitterRestAPI {
-  val ConsumerKey = "zckox0ybm1UheRy7DdirLYB18"
-  val ConsumerSecret = "Nx0oDdxfZrRFepfbuMLFqMRvjAhYduaHPwlRCW5r0oHFypwmVn"
-  val AccessToken = "988311065896374272-ECPkJhP3GYbJ38RTUDMDNQJuhmeiAWg"
-  val AccessSecret = "LuL3oMyVNDpMpVTEmjokScshuoR5ZoozHB42fkcJsS81m"
+/**
+     *reference: https://dzone.com/articles/access-twitter-rest-api-v11
+     */
 
-  System.setProperty("twitter4j.oauth.consumerKey", ConsumerKey)
-  System.setProperty("twitter4j.oauth.consumerSecret", ConsumerSecret)
-  System.setProperty("twitter4j.oauth.accessToken", AccessToken)
-  System.setProperty("twitter4j.oauth.accessTokenSecret", AccessSecret)
+
+object TwitterRestAPI {
+  val consumerKey = "zckox0ybm1UheRy7DdirLYB18"
+  val consumerSecret = "Nx0oDdxfZrRFepfbuMLFqMRvjAhYduaHPwlRCW5r0oHFypwmVn"
+  val accessToken = "988311065896374272-ECPkJhP3GYbJ38RTUDMDNQJuhmeiAWg"
+  val accessSecret = "LuL3oMyVNDpMpVTEmjokScshuoR5ZoozHB42fkcJsS81m"
+
+  System.setProperty("twitter4j.oauth.consumerKey", consumerKey)
+  System.setProperty("twitter4j.oauth.consumerSecret", consumerSecret)
+  System.setProperty("twitter4j.oauth.accessToken", accessToken)
+  System.setProperty("twitter4j.oauth.accessTokenSecret", accessSecret)
 
 
   def restCall(i: DateTime,k: String, count: Int): String = {
-    /*
-     *reference: https://dzone.com/articles/access-twitter-rest-api-v11
-     */
-    val consumer = new CommonsHttpOAuthConsumer(ConsumerKey, ConsumerSecret)
-    consumer.setTokenWithSecret(AccessToken, AccessSecret)
+
+    val consumer = new CommonsHttpOAuthConsumer(consumerKey, consumerSecret)
+    consumer.setTokenWithSecret(accessToken, accessSecret)
     val url = "https://api.twitter.com/1.1/search/tweets.json?q=" + k + "&count=" + count + "&until=" + i.toString(StaticDateTimeFormat.forPattern("yyyy-MM-dd"))
     val request = new HttpGet(url)
     consumer.sign(request)
