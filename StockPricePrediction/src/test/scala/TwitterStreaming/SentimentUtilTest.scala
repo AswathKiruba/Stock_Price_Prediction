@@ -4,9 +4,27 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class SentimentUtilTest extends FlatSpec with Matchers {
 
-
-
   behavior of "detectSentiment"
+
+  it should "POSITIVE Sentiment" in {
+
+    SentimentAnalysisUtil.detectSentiment("It was a nice movie.",false) shouldBe SentimentAnalysisUtil.POSITIVE
+
+  }
+
+  it should "NEUTRAL Sentiment" in {
+
+    SentimentAnalysisUtil.detectSentiment("I don't want to leave.",false) shouldBe SentimentAnalysisUtil.NEUTRAL
+
+  }
+
+  it should "NEGATIVE Sentiment" in {
+
+    SentimentAnalysisUtil.detectSentiment("I hate watching from last row.",false) shouldBe SentimentAnalysisUtil.NEGATIVE
+
+  }
+
+  behavior of "detectSentimentScore"
 
 
   it should "detect VERY_NEGATIVE 1.0" in {
