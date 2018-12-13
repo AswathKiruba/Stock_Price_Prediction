@@ -61,4 +61,21 @@ object TimeSeriesUtils {
   def createMultipleCompanyValues[String](n: Int, l: List[String]):List[String] = {
     l flatMap {e => List.fill(n)(e) }
   }
+
+  def smoothening(values:List[Double],period:Int):List[Double] = {
+    val first = (values take period).sum / period
+    val subtract = values map (_ / period)
+    val add = subtract drop period
+    val addAndSubtract = add zip subtract map Function.tupled(_ - _)
+    val res = (addAndSubtract.foldLeft(first :: List.fill(period - 1)(0.0)) {
+      (acc, add) => (add + acc.head) :: acc
+    }).reverse
+    val schema = StructType(StructField("Price",DoubleType,false)::Nil)
+    val sc = SparkContext.getOrCreate(conf)
+    val sqlContext = new SQLContext(sc)
+    val rdd = sc.parallelize(res).map(x=>Row(x.asInstanceOf[Number].doubleValue()))
+    sqlContext.createDataFrame(rdd,schema).coalesce(1).write.format("com.databricks.spark.csv").mode(SaveMode.Overwrite).save("smoothening")
+
+    res
+  }
 }

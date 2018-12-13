@@ -1,12 +1,14 @@
 package TimeSeries
 
 
+import TimeSeries.TimeSeriesAnalysis.formatted
 import com.cloudera.sparkts.TimeSeriesRDD
-import com.cloudera.sparkts.models.ARIMA
+import com.cloudera.sparkts.models.{ARIMA, EWMA}
 import TimeSeries.TimeSeriesUtils.createMultipleCompanyValues
+import org.apache.spark.sql.Row
 
 object models {
-  def trainAndPredictPrice(tsRdd:TimeSeriesRDD[String]):Array[String]={
+  def trainAndPredictPriceArima(tsRdd:TimeSeriesRDD[String]):Array[String]={
 
     val noOfDays = 30
     val df = tsRdd.mapSeries{vector => {
@@ -31,10 +33,12 @@ object models {
     TimeSeriesUtils.getTop3Companies(priceForecast)
     val companies = df.collect().map(_._1)
     TimeSeriesUtils.getAccuracy(actualPrice,priceForecast,30)
+    val appl = TimeSeriesAnalysis.formatted.filter("Name=='AAPL'")
+    val price = appl.collect().flatMap((row: Row) => Array(row.getDouble(4)))
+    TimeSeriesUtils.smoothening(price.toList,4)
     companies
-
-
-
   }
+
+
 
 }
