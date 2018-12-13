@@ -4,6 +4,10 @@ package TwitterStreaming
 import spray.json.DefaultJsonProtocol
 import scala.util._
 
+/**
+  *Reference: https://medium.com/se-notes-by-alexey-novakov/yet-another-akka-streams-post-realtime-twitter-top-words-88e1c1b1fa2e
+ */
+
 case class Tweet(text: String,lang: String,created_at: String,retweet_count: Int,user: User, entities: Entities)
 
 case class User(id: Int, favourites_count: Int, location: String, name: String)

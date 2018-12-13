@@ -21,7 +21,7 @@ object SparkTwitterStreaming {
     // search Keyword
     val filters = Array("Microsoft")
 
-    val conf = new SparkConf().setAppName("TwitterSentimentAnalysis").setMaster("local[4]")
+    val conf = new SparkConf().setAppName("SparkTwitterSentiment").setMaster("local[3]")
 
     // Create a DStream for every 5 seconds
     val ssc = new StreamingContext(conf, Seconds(5))
@@ -31,8 +31,8 @@ object SparkTwitterStreaming {
 
     tweets.print()
 
-
-    tweets.foreachRDD{(rdd, time) =>
+    //store the results in Elastic Search
+    tweets.foreachRDD{(rdd) =>
       rdd.map(t => {
         Map(
           "author"-> t.getUser.getScreenName,

@@ -10,11 +10,11 @@ object Twitter {
     System.setProperty("hadoop.home.dir", "C:/Users/aswat/OneDrive/Documents/spark/")
 
     val microsoftScore = calculateSentiment("Microsoft stock")
-    val valList = List(microsoftScore)
-    val structList = List("Microsoft")
-    val res = (valList,structList).zipped.toArray.sortWith(_._1>_._1)
-    for(i <- 0 until res.length){
-      println(res(i)._2 + " " + res(i)._1)
+    val sentimentList = List(microsoftScore)
+    val companyList = List("Microsoft")
+    val result = (sentimentList,companyList).zipped.toArray.sortWith(_._1>_._1)
+    for(i <- 0 until result.length){
+      println(result(i)._2 + " " + result(i)._1)
     }
 
 

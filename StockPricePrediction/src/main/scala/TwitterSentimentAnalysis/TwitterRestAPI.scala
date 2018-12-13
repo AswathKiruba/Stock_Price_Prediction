@@ -8,6 +8,7 @@ import org.apache.commons.io.IOUtils
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.HttpClientBuilder
 import com.github.nscala_time.time.Imports._
+
 import scala.io.{Codec, Source}
 
 /**
@@ -40,23 +41,31 @@ object TwitterRestAPI {
   }
 
 
-  def getFromKeyword(k: String, count: Int = 90): String = {
+  def getFromKeyword(k: String, count: Int = 30): String = {
     val today= DateTime.now
-    val ss = for (i <- 1 to 7) yield restCall(today-i.days,k,count)
+    val ss = for (i <- 1 to 5) yield restCall(today-i.days,k,count)
     ss.mkString("\n")
   }
 
-  def calculateSentiment(k: String = "", count: Int = 90, catchlog: Boolean = true): Double = {
+  def calculateSentiment(k: String = "", count: Int = 30, catchlog: Boolean = true): String = {
     val ingest = new Ingest[Response]()
     implicit val codec = Codec.UTF8
     val source = Source.fromString(getFromKeyword(k.replaceAll(" ","%20"),count))
     val realTweet = for (tweet <- ingest(source).toSeq) yield tweet
     val processedTweet = realTweet.flatMap(_.toOption)
-    val sentiment = processedTweet.map(r => r.statuses)
-    val finalTweet = sentiment.flatten
-    val totalSentiment = finalTweet.par.map(s => SentimentAnalysisUtil.detectSentimentScore(s.text,catchlog))
+    val sentiment = processedTweet.map(r => r.statuses).flatten
+    val totalSentiment = sentiment.par.map(s => SentimentAnalysisUtil.detectSentimentScore(s.text,catchlog))
     val finalScore = totalSentiment.sum/totalSentiment.size
-    finalScore
+    finalScore match {
+      case sentiment if sentiment <= 0.0 => "NOT_UNDERSTOOD"
+      case sentiment if sentiment < 1.0 => "VERY_NEGATIVE"
+      case sentiment if sentiment < 2.0 => "NEGATIVE"
+      case sentiment if sentiment < 3.0 => "NEUTRAL"
+      case sentiment if sentiment < 4.0 => "POSITIVE"
+      case sentiment if sentiment < 5.0 => "VERY_POSITIVE"
+      case sentiment if sentiment > 5.0 => "NOT_UNDERSTOOD"
+    }
+
   }
 
 }
