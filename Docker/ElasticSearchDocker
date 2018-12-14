@@ -1,0 +1,6 @@
+FROM elasticsearch:6.5.1
+MAINTAINER aswathkiruba
+
+ENV PATH /usr/share/elasticsearch/bin:$PATH
+
+RUN plugin install mobz/elasticsearch-head

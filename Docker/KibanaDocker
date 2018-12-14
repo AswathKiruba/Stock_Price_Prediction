@@ -1,0 +1,2 @@
+FROM kibana:6.5.1
+MAINTAINER aswathkiruba
