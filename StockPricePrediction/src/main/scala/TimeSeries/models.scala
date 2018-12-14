@@ -1,13 +1,12 @@
 package TimeSeries
 
 
-import TimeSeries.TimeSeriesAnalysis.formatted
 import com.cloudera.sparkts.TimeSeriesRDD
-import com.cloudera.sparkts.models.{ARIMA, EWMA}
+import com.cloudera.sparkts.models.{ARIMA}
 import TimeSeries.TimeSeriesUtils.createMultipleCompanyValues
 import org.apache.spark.sql.Row
 
-object models {
+object Models {
   def trainAndPredictPriceArima(tsRdd:TimeSeriesRDD[String]):Array[String]={
 
     val noOfDays = 30
@@ -21,7 +20,7 @@ object models {
       val forecasted = arimaModel.forecast(newVec, noOfDays)
 
       new org.apache.spark.mllib.linalg.DenseVector(forecasted.toArray.slice(forecasted.size-(noOfDays+1), forecasted.size-1))
-      }
+    }
     }
     val listOfCompanies: List[String] = df.collectAsTimeSeries().keys.toList
     val companyValues = createMultipleCompanyValues(noOfDays,listOfCompanies)

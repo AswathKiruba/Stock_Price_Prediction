@@ -48,10 +48,8 @@ object TimeSeriesUtils {
   def getAccuracy(actual: Array[Array[Double]],forecastedList: Array[(String, Vector)], noOfDays: Int ):Unit={
 
     val forecast = forecastedList.map(_._2)
-
     val accuracy: ListBuffer[Double] = ListBuffer()
     for (j <- 0 until actual.length; i <- 0 until noOfDays) {
-
       val errorSquare = Math.abs(forecast(j)(i) - actual(j)(i))/actual(j)(i)
       accuracy += errorSquare
     }
@@ -70,11 +68,16 @@ object TimeSeriesUtils {
     val res = (addAndSubtract.foldLeft(first :: List.fill(period - 1)(0.0)) {
       (acc, add) => (add + acc.head) :: acc
     }).reverse
-    val schema = StructType(StructField("Price",DoubleType,false)::Nil)
-    val sc = SparkContext.getOrCreate(conf)
-    val sqlContext = new SQLContext(sc)
-    val rdd = sc.parallelize(res).map(x=>Row(x.asInstanceOf[Number].doubleValue()))
-    sqlContext.createDataFrame(rdd,schema).coalesce(1).write.format("com.databricks.spark.csv").mode(SaveMode.Overwrite).save("smoothening")
+
+    /**
+      * uncomment to save the smoothing result in a csv
+       */
+
+//    val schema = StructType(StructField("Price",DoubleType,false)::Nil)
+//    val sc = SparkContext.getOrCreate(conf)
+//    val sqlContext = new SQLContext(sc)
+//    val rdd = sc.parallelize(res).map(x=>Row(x.asInstanceOf[Number].doubleValue()))
+//    sqlContext.createDataFrame(rdd,schema).coalesce(1).write.format("com.databricks.spark.csv").mode(SaveMode.Overwrite).save("smoothening")
 
     res
   }
