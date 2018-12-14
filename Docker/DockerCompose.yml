@@ -1,0 +1,22 @@
+elasticsearch:
+  build: .
+  dockerfile: ElasticSearchDocker 
+  command: elasticsearch -Des.network.host=0.0.0.0
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+kibana:
+  build: .
+  dockerfile: KibanaDocker
+  ports:
+    - "5601:5601"
+  links:
+    - elasticsearch
+spark:
+  build: .
+  dockerfile: DockerStockPrediction  
+
+  ports:
+    - "4040:4040"
+  links:
+    - elasticsearch 
