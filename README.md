@@ -1,4 +1,4 @@
-# Stock Price Prediction
+# Stock Price Prediction       [![CircleCI](https://circleci.com/gh/AswathKiruba/Stock_Price_Prediction/tree/master.svg?style=svg)](https://circleci.com/gh/AswathKiruba/Stock_Price_Prediction/tree/master)
 
 This is the CSYE7200 Big Data Systems Engineering Using Scala Final Project for Team 9 Fall 2018
 
@@ -10,6 +10,7 @@ Aswathnarayan Kirubakaran muthukrishnankirub.a@husky.neu.edu
 
 
 The stock market is subject to rapid changes. It is very difficult to predict what will happen to the stock market in general or the stocks of a particular company. A significant amount of money can be earned or saved when the stock market trend for the day itself or the next day can be predicted. In this project to predict future stock price we apply supervised learning algorithms using Scala and Spark. 
+
 
 # Methodology
 
@@ -41,6 +42,18 @@ The stock market is subject to rapid changes. It is very difficult to predict wh
 
 ## Time Series Forecasting
 
-1. *Feature Engineering* : Converted the stock prices to vectors
-2. *Models*: Utilized ARIMA and EWMA model for stock price forecasting 
+1. *Feature Engineering* : Converted the stock prices to vectors and applied smoothing
+2. *Models*: Utilized ARIMA model for stock price forecasting 
 3. *Evaluation Metrics*: Accuracy and RMSE
+
+## Docker Setup
+
+1. Install docker
+2. Install docker compose
+
+Enter the following commands
+ ```git clone https://github.com/AswathKiruba/Stock_Price_Prediction.git
+    cd Docker
+    DockerCompose build
+    DockerCompose up 
+ ```
