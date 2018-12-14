@@ -26,7 +26,10 @@ object TimeSeriesUtils {
     val sc = SparkContext.getOrCreate(conf)
     val sqlContext = new SQLContext(sc)
     val rdd = sc.parallelize(tup).map(x=>Row(x._1,x._2.asInstanceOf[Number].doubleValue()))
-    sqlContext.createDataFrame(rdd,schema).coalesce(1).write.partitionBy("Names").format("com.databricks.spark.csv").mode(SaveMode.Overwrite).save("prediction")
+    /**
+      * uncomment to save the prediction result in a csv
+      */
+    //sqlContext.createDataFrame(rdd,schema).coalesce(1).write.partitionBy("Names").format("com.databricks.spark.csv").mode(SaveMode.Overwrite).save("prediction")
   }
 
   def getTop3Companies(forecasted:Array[(String, Vector)]):Array[(Double, String)]={
@@ -41,7 +44,10 @@ object TimeSeriesUtils {
     val sc = SparkContext.getOrCreate(conf)
     val sqlContext = new SQLContext(sc)
     val rdd = sc.parallelize (tup).map (x => Row(x._2, x._1.asInstanceOf[Number].doubleValue()))
-    sqlContext.createDataFrame(rdd, schema).coalesce(1).write.format("com.databricks.spark.csv").mode(SaveMode.Overwrite).save("predictedProfit")
+    /**
+      * uncomment to save the profit result in a csv
+      */
+   // sqlContext.createDataFrame(rdd, schema).coalesce(1).write.format("com.databricks.spark.csv").mode(SaveMode.Overwrite).save("predictedProfit")
     tup
   }
 
