@@ -5,7 +5,7 @@ import org.apache.spark.SparkConf
 import org.apache.spark.streaming.twitter._
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.elasticsearch.spark._
-import TwitterStreaming.TwitterRestAPI.{accessSecret, accessToken, consumerKey, consumerSecret}
+import TwitterRestAPI.TwitterRestCall.{accessSecret, accessToken, consumerKey, consumerSecret}
 import SentimentAnalysisUtil.detectSentiment
 
 

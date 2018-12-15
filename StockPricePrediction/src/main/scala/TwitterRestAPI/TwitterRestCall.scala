@@ -1,6 +1,6 @@
-package TwitterStreaming
+package TwitterRestAPI
 
-
+import TwitterStreaming.SentimentAnalysisUtil
 import com.github.nscala_time.time.Imports.DateTime
 import com.github.nscala_time.time.StaticDateTimeFormat
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer
@@ -16,7 +16,7 @@ import scala.io.{Codec, Source}
      */
 
 
-object TwitterRestAPI {
+object TwitterRestCall {
   val consumerKey = "zckox0ybm1UheRy7DdirLYB18"
   val consumerSecret = "Nx0oDdxfZrRFepfbuMLFqMRvjAhYduaHPwlRCW5r0oHFypwmVn"
   val accessToken = "988311065896374272-ECPkJhP3GYbJ38RTUDMDNQJuhmeiAWg"
@@ -28,11 +28,11 @@ object TwitterRestAPI {
   System.setProperty("twitter4j.oauth.accessTokenSecret", accessSecret)
 
 
-  def restCall(i: DateTime,k: String, count: Int): String = {
+  def restCall(dateTime: DateTime,filter: String, tweetCount: Int): String = {
 
     val consumer = new CommonsHttpOAuthConsumer(consumerKey, consumerSecret)
     consumer.setTokenWithSecret(accessToken, accessSecret)
-    val url = "https://api.twitter.com/1.1/search/tweets.json?q=" + k + "&count=" + count + "&until=" + i.toString(StaticDateTimeFormat.forPattern("yyyy-MM-dd"))
+    val url = "https://api.twitter.com/1.1/search/tweets.json?q=" + filter + "&count=" + tweetCount + "&until=" + dateTime.toString(StaticDateTimeFormat.forPattern("yyyy-MM-dd"))
     val request = new HttpGet(url)
     consumer.sign(request)
     val client = HttpClientBuilder.create().build()
@@ -41,16 +41,16 @@ object TwitterRestAPI {
   }
 
 
-  def getFromKeyword(k: String, count: Int = 30): String = {
-    val today= DateTime.now
-    val ss = for (i <- 1 to 5) yield restCall(today-i.days,k,count)
+  def getTweets(filter: String, tweetCount: Int = 30): String = {
+    val currentDate= DateTime.now
+    val ss = for (i <- 1 to 5) yield restCall(currentDate-i.days,filter,tweetCount)
     ss.mkString("\n")
   }
 
-  def calculateSentiment(k: String = "", count: Int = 30, catchlog: Boolean = true): String = {
+  def calculateSentiment(filter: String = "", tweetCount: Int = 30, catchlog: Boolean = true): String = {
     val ingest = new Ingest[Response]()
     implicit val codec = Codec.UTF8
-    val source = Source.fromString(getFromKeyword(k.replaceAll(" ","%20"),count))
+    val source = Source.fromString(getTweets(filter.replaceAll(" ","%20"),tweetCount))
     val realTweet = for (tweet <- ingest(source).toSeq) yield tweet
     val processedTweet = realTweet.flatMap(_.toOption)
     val sentiment = processedTweet.map(r => r.statuses).flatten

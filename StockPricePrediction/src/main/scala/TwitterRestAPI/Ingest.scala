@@ -1,4 +1,4 @@
-package TwitterStreaming
+package TwitterRestAPI
 
 import scala.io.Source
 import scala.util.Try
